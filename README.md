@@ -1,52 +1,95 @@
+# Task 1: Cyclone Machine Data Analysis – README
+1. Project Overview
 
-# Task 1: Cyclone Machine Data Analysis - README
+This project provides an end-to-end analysis of a 3-year time-series dataset from a cyclone machine. The workflow includes:
 
-## 1. Project Overview
+Data cleaning and exploratory analysis
 
-This project performs an end-to-end analysis of a 3-year time-series dataset from a cyclone machine. The analysis is broken down into six sequential parts, starting with data cleaning and culminating in actionable insights and recommendations. This document explains each analytical step and provides instructions on how to run the code.
+Shutdown and idle period detection
 
----
+Machine state segmentation (clustering)
 
-## 2. General Instructions to Run the Code
+Contextual anomaly detection and root cause analysis
 
-1.  **Environment Setup**:
-    * It is recommended to use a Python virtual environment.
-    * Install all required libraries by running `pip install -r requirements.txt`.
+Short-horizon forecasting
 
-2.  **Execution**:
-    * The entire analysis is located in the **`task1_analysis.ipynb`** (or **`.py`**) file.
-    * The code is designed to be run sequentially from top to bottom. Each numbered section in the notebook corresponds to the analytical steps described below.
+Insights synthesis and actionable recommendations
 
----
+The goal is to detect operational patterns, predict potential issues, and provide recommendations to improve reliability and efficiency.
 
-## 3. Description of Analytical Steps & How to Run Each
+2. Folder Structure
+Task1/
+├── task1_analysis.ipynb         # Main analysis notebook (or .py script)
+├── shutdown_periods.csv         # Detected shutdown periods
+├── clusters_summary.csv         # Summary statistics for each machine state
+├── anomalous_periods.csv        # List of anomalies with metadata
+├── forecasts.csv                # True vs predicted values for forecasting
+├── plots/                       # All generated plots (PNG format)
+└── README.md                    # This file
 
-### 1) Data Preparation & Exploratory Analysis
+3. Environment Setup
 
-* **What it is**: This first step involves loading and cleaning the raw sensor data to make it suitable for analysis. [cite_start]It includes handling missing values, ensuring strict 5-minute time indexing, calculating summary statistics, and visualizing the data to understand its basic patterns[cite: 17, 18, 19].
-* **How to run it**: Execute the cells under the "Data Preparation & Exploratory Analysis" section in the notebook. This will load the data, perform cleaning operations, and generate initial summary tables and plots.
+Python version: 3.9+
 
-### 2) Shutdown / Idle Period Detection
+Recommended: Use a virtual environment
 
-* [cite_start]**What it is**: This part programmatically detects and segments all periods when the machine was not operational[cite: 21]. [cite_start]The total downtime and number of shutdown events are computed, and a visualization is created to highlight these periods over a full year[cite: 22, 23].
-* **How to run it**: Run the cells in the "Shutdown / Idle Period Detection" section. This will process the cleaned data, identify idle periods, and save the results to **`shutdown_periods.csv`**.
+Install dependencies:
 
-### 3) Machine State Segmentation (Clustering)
+pip install -r requirements.txt
 
-* [cite_start]**What it is**: Using the active operational data (shutdowns excluded), this step applies multivariate clustering to group the data into interpretable machine states like 'Normal', 'High Load', etc.[cite: 25, 26, 27]. [cite_start]For each state, summary statistics and descriptions are generated[cite: 28, 29, 30, 31].
-* **How to run it**: Execute the cells under the "Machine State Segmentation" section. This will train the clustering model, assign state labels to the data, and save the state summaries to **`clusters_summary.csv`**.
 
-### 4) Contextual Anomaly Detection + Root Cause Analysis
+Required Python libraries: pandas, numpy, matplotlib, seaborn, scikit-learn, pmdarima, statsmodels, hdbscan (optional for advanced clustering)
 
-* [cite_start]**What it is**: This section focuses on building a system to detect anomalies that are contextual to each specific machine state[cite: 33]. [cite_start]It produces a list of anomalies and includes a root cause hypothesis for 3-6 selected events, supported by visualizations[cite: 35, 36, 40].
-* **How to run it**: Run the cells in the "Contextual Anomaly Detection" section. This code will train the detection models, identify anomalies, and save them to **`anomalous_periods.csv`**.
+4. How to Run the Analysis
+Step 1: Data Preparation & Exploratory Analysis
 
-### 5) Short-Horizon Forecasting
+Purpose: Load and clean the raw data, handle missing values, ensure strict 5-minute intervals, compute summary statistics, and visualize patterns.
 
-* [cite_start]**What it is**: The goal here is to forecast the `Cyclone_Inlet_Gas_Temp` for the next hour (12 steps)[cite: 42]. [cite_start]At least two different forecasting methods are built and compared, with their performance evaluated using RMSE and MAE[cite: 43, 44].
-* **How to run it**: Execute the cells under the "Short-Horizon Forecasting" section. This will train the models, generate predictions on the test set, and save the results to **`forecasts.csv`**.
+Run: Execute the cells under "Data Preparation & Exploratory Analysis".
 
-### 6) Insights & Storytelling
+Step 2: Shutdown / Idle Period Detection
 
-* [cite_start]**What it is**: This is the final part of the analysis, where all previous findings are connected to provide 3-5 concise insights and actionable recommendations[cite: 47, 49].
-* **How to run it**: The cells in this section typically contain markdown and data aggregation code that synthesizes results from the previous steps. Running them will display the final summary and conclusions. There is no separate file output for this step.
+Purpose: Identify periods when the machine was idle or shut down. Compute total downtime and number of shutdown events.
+
+Run: Execute "Shutdown / Idle Period Detection" section.
+
+Output: shutdown_periods.csv and plots highlighting shutdown periods.
+
+Step 3: Machine State Segmentation (Clustering)
+
+Purpose: Cluster operational data into interpretable states (e.g., Normal, High Load). Generate summary statistics for each state.
+
+Run: Execute "Machine State Segmentation" section.
+
+Output: clusters_summary.csv and state visualizations in plots/.
+
+Step 4: Contextual Anomaly Detection + Root Cause Analysis
+
+Purpose: Detect anomalies relative to operational states. Provide root cause hypotheses for selected events with visualizations.
+
+Run: Execute "Contextual Anomaly Detection" section.
+
+Output: anomalous_periods.csv and anomaly plots in plots/.
+
+Step 5: Short-Horizon Forecasting
+
+Purpose: Forecast Cyclone_Inlet_Gas_Temp for the next 1 hour (12 steps) using multiple models. Evaluate using RMSE and MAE.
+
+Run: Execute "Short-Horizon Forecasting" section.
+
+Output: forecasts.csv and forecast plots in plots/.
+
+Step 6: Insights & Storytelling
+
+Purpose: Synthesize results from all previous steps to provide key insights and actionable recommendations.
+
+Run: Execute "Insights & Storytelling" section. No separate file output; results are shown in the notebook.
+
+5. Output Files Summary
+File	Description
+task1_analysis.ipynb	Main analysis notebook
+shutdown_periods.csv	Detected shutdown periods (start, end, duration)
+clusters_summary.csv	Summary statistics and descriptions of operational states
+anomalous_periods.csv	Consolidated list of anomalies with timestamps, duration, variables, and state
+forecasts.csv	True vs predicted values for forecasting task
+plots/	All visualizations (shutdowns, clusters, anomalies, forecasts)
